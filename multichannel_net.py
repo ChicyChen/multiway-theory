@@ -79,11 +79,19 @@ class MultipathwayNet(torch.nn.Module):
                     new_op_list.append(self.nonlinearity)
                 self.hidden_layers.append(new_op_list)
 
-    def forward(self, x):
+    def forward(self, x, idx=-1):
 
         output = 0
 
-        for op_list in self.hidden_layers:
+        if idx == -1:
+            for op_list in self.hidden_layers:
+                xtemp = x
+                for op in op_list:
+                    xtemp = op(xtemp)
+                output += xtemp
+        else:
+            # pass only a specific pathway
+            op_list = self.hidden_layers[idx]
             xtemp = x
             for op in op_list:
                 xtemp = op(xtemp)

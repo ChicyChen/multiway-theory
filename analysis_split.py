@@ -412,12 +412,6 @@ class MPNAnalysi2Group(object):
 
         for t in range(timesteps):
 
-            # output1 = self.mcn(self.X1, 0)
-            # loss_val1 = loss(output1, self.Y1)
-            # output2 = self.mcn(self.X2, 1)
-            # loss_val2 = loss(output2, self.Y2)
-            # loss_val = (loss_val1 + loss_val2) / 2
-
             output1 = self.mcn(self.X1, 0)
             output2 = self.mcn(self.X2, 1)
             output = output1 + output2
@@ -774,11 +768,11 @@ if __name__ == '__main__':
                         max_val=max_val2)
 
     fig_train.suptitle("Training loss")
-    fig_train.savefig(f'train_loss_{name}_separate{args.separate}_guide{args.guide}.pdf')
-    fig_history.savefig(f'test_{name}_separate{args.separate}_guide{args.guide}.pdf')
+    fig_train.savefig(f'split_train_loss_{name}_separate{args.separate}_guide{args.guide}.pdf')
+    fig_history.savefig(f'split_test_{name}_separate{args.separate}_guide{args.guide}.pdf')
     if args.twogroup:
-        fig_history1.savefig(f'test1_{name}_separate{args.separate}_guide{args.guide}.pdf')
-        fig_history2.savefig(f'test2_{name}_separate{args.separate}_guide{args.guide}.pdf')
+        fig_history1.savefig(f'split_test1_{name}_separate{args.separate}_guide{args.guide}.pdf')
+        fig_history2.savefig(f'split_test2_{name}_separate{args.separate}_guide{args.guide}.pdf')
 
 
     plt.show()
