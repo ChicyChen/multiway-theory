@@ -64,10 +64,12 @@ mat2 = torch.zeros((8, 15))
 mat2[range(8), range(8)] = diag_values2
 # x1 = X_default[:4,:]
 # x2 = X_default[4:,:]
-x1 = X_default[:,:4]
-x2 = X_default[:,4:]
+# x1 = X_default[:,:4]
+# x2 = X_default[:,4:]
 # y1 = x1.mm(mat1)
 # y2 = x2.mm(mat2)
+x1 = torch.diag(torch.randint(1, 5, (8,))).float() / 5
+x2 = torch.diag(torch.randint(-5, -1, (8,))).float() / 5
 y1 = Y_default
 y2 = Y_default
 # X_2group = torch.cat([x1, x2],dim=0)
@@ -693,7 +695,7 @@ if __name__ == '__main__':
             ax3d1 = fig_history1.add_subplot(gs1[di * 3], projection='3d')
             ax3d2 = fig_history2.add_subplot(gs2[di * 3], projection='3d')
 
-        mcn = MultipathwayNet(4, 15, depth=depth, num_pathways=2, width=1000,
+        mcn = MultipathwayNet(8, 15, depth=depth, num_pathways=2, width=1000,
                               bias=False, nonlinearity=nonlin)
         # mcn = MultipathwayNet(8, 15, depth=depth, num_pathways=2, width=1000,
         #                       bias=False, nonlinearity=nonlin)
@@ -728,21 +730,27 @@ if __name__ == '__main__':
         K_list = [pathway[-1].to("cpu") for pathway in mpna.K_history]
         min_val_temp = np.min([torch.min(K) for K in K_list])
         max_val_temp = np.max([torch.max(K) for K in K_list])
-        min_val = min(min_val_temp, min_val)
-        max_val = max(max_val_temp, max_val)
+        if min_val_temp == min_val_temp:
+            min_val = min(min_val_temp, min_val)
+        if max_val_temp == max_val_temp:
+            max_val = max(max_val_temp, max_val)
 
         if args.twogroup:
             K_list1 = [pathway[-1].to("cpu") for pathway in mpna.K_history1]
             min_val_temp1 = np.min([torch.min(K) for K in K_list1])
             max_val_temp1 = np.max([torch.max(K) for K in K_list1])
-            min_val1 = min(min_val_temp1, min_val1)
-            max_val1 = max(max_val_temp1, max_val1)
+            if min_val_temp1 == min_val_temp1:
+                min_val1 = min(min_val_temp1, min_val1)
+            if max_val_temp1 == max_val_temp1:
+                max_val1 = max(max_val_temp1, max_val1)
 
             K_list2 = [pathway[-1].to("cpu") for pathway in mpna.K_history2]
             min_val_temp2 = np.min([torch.min(K) for K in K_list2])
             max_val_temp2 = np.max([torch.max(K) for K in K_list2])
-            min_val2 = min(min_val_temp2, min_val2)
-            max_val2 = max(max_val_temp2, max_val2)
+            if min_val_temp2 == min_val_temp2:
+                min_val2 = min(min_val_temp2, min_val2)
+            if max_val_temp2 == max_val_temp2:
+                max_val2 = max(max_val_temp2, max_val2)
 
     for di, depth in enumerate(depth_list):
         mpna = mpna_list[di]
